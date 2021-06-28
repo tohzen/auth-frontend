@@ -12,8 +12,10 @@ export class Signup extends Component {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: "",  
+    // ^ these variables  are blank states that hold the value of the input box ^
     firstNameError: "",
+    // below are the errors that appear when the if statements are met.
     lastNameError: "",
     usernameError: "",
     emailError: "",
@@ -31,9 +33,12 @@ export class Signup extends Component {
   handleOnChange = (event) => {
     this.setState(
       {
-        [event.target.name]: event.target.value,
+        [event.target.name]: event.target.value, // this is updating everytime something changes in the input box
       },
       () => {
+        // console.log("Inside setState Callback");
+        // console.log(this.state.firstName);
+        // console.log(event.target.name, ":", event.target.value); // keeps track of what changes are being made and saved.
         if (
           event.target.name === "firstName" ||
           event.target.name === "lastName"
@@ -167,7 +172,7 @@ export class Signup extends Component {
   };
 
   handleOnSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // stops from refreshing when somone submits and the array disappears if this isnt here
 
     try {
       let userInputObj = {
@@ -186,10 +191,11 @@ export class Signup extends Component {
   };
 
   handleOnBlur = (event) => {
-    // console.log(event.target.name);
+    // console.log(event.target.name); // renders the state variable above.
     // console.log("handle onBlur Triggered");
 
-    if (this.state[event.target.name].length === 0) {
+    if (this.state[event.target.name].length === 0) { // bracket notation - if the event.target = one of the variables from state for our input boxes. If we add name - one of the variables we used in our rendered html below. If the length of the input box is 0, run the setstate below.
+      this.setState
       this.setState({
         [`${event.target.name}Error`]: `${event.target.placeholder} cannot be empty`,
       });
@@ -233,7 +239,8 @@ export class Signup extends Component {
 
   render() {
     const {
-      firstName,
+      firstName, // brings the variables from the state into the html. these will be assigned as the values to our input box. Errors will appear based on onblur func.
+
       lastName,
       username,
       email,
@@ -252,23 +259,24 @@ export class Signup extends Component {
         <div className="form-text">Sign up</div>
 
         <div className="form-div">
-          <form className="form" onSubmit={this.handleOnSubmit}>
+          <form className="form" onSubmit={this.handleOnSubmit}>  
+          {/* this is saying the form will have the function handleOnSubmit */}
             <div className="form-group-inline">
               <div className="inline-container">
                 <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  placeholder="First Name"
-                  name="firstName"
-                  onChange={this.handleOnChange}
-                  autoFocus
-                  onBlur={this.handleOnBlur}
+                <input  // input just shows whats on the html
+                  type="text" // its type is text LOL
+                  id="firstName" // this is the id 
+                  value={firstName} // this is whats stored in the input box
+                  placeholder="First Name" // placeholder until the user types something
+                  name="firstName" // the name used for onblur
+                  onChange={this.handleOnChange} // onchange function
+                  autoFocus // when page is rendered, user will be able to type in the box that autofocus is in.
+                  onBlur={this.handleOnBlur} // handles onblur, error message checker
                   onFocus={this.handleInputOnFocus}
                 />
                 <div className="errorMessage">
-                  {firstNameError && firstNameError}
+                  {firstNameError && firstNameError /* this will render if the conditions in the onblur function are met. */}  
                 </div>
               </div>
 
@@ -365,7 +373,7 @@ export class Signup extends Component {
             </div>
 
             <div className="button-container">
-              <button type="submit" disabled={this.state.isButtonDisabled}>
+              <button type="submit" disabled={this.state.isButtonDisabled /* submit button */}>  
                 Submit
               </button>
             </div>
